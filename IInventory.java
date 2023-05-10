@@ -1,10 +1,9 @@
-import java.util.List;
-import Model.Movie;
+import java.util.Scanner;
 
 public interface IInventory {
-    public void addToInventory(String movieTitle);
-    public Movie searchInventory(String movieTitle);
-    public void deleteFromInventory(Movie movieToDelete);
-    public void rentMovie(Movie movieToRent);
-    public void takeBackMovie(Movie movieToTakeBack);
+    public void addMovie(Scanner input);
+    public void deleteMovie(Scanner input);
+    public void rentMovie(Scanner input);
+    public void takeBackMovie(Scanner input);
+    public void printMovieInventory();
 }

@@ -1,40 +1,35 @@
 import java.util.Scanner;
 
-import Model.Movie;
-
 public class Main {
     private static Scanner input;
     private static Inventory movieInventory;
     public static void main(String[] args){
-
-        System.out.println("Willkommen im InventarSystem der MovieVision GmbH.");
-
         movieInventory = new Inventory();
         input = new Scanner(System.in);
-        String movieTitle = "";
 
+        System.out.println("Willkommen im InventarSystem der MovieVision GmbH.");
         showMenu();
 
         while(true){
             System.out.print("Wähle eine Zahl um den Menüpunkt aufzurufen: ");
             int menu = input.nextInt();
-
             input.nextLine(); // nextInt() doesn't consume '\n', so we need to consume \n before going further
+            
             switch(menu){
                 case 0:
                     showMenu();
                     break;
                 case 1:
-                    addMovie();
+                    movieInventory.addMovie(input);
                     break;
                 case 2:
-                    deleteMovie();
+                    movieInventory.deleteMovie(input);
                     break;
                 case 3:
-                    rentMovie();
+                    movieInventory.rentMovie(input);
                     break;
                 case 4:
-                    takeBackMovie();
+                    movieInventory.takeBackMovie(input);
                     break;
                 case 5:
                     movieInventory.printMovieInventory();
@@ -44,33 +39,6 @@ public class Main {
                     System.exit(0);
             }
         }
-    }
-
-    private static void addMovie(){
-        System.out.println("Wie ist der Filmtitel?");
-        String movieTitle = input.nextLine();
-        movieInventory.addToInventory(movieTitle);
-    }
-    
-    private static void deleteMovie(){
-        System.out.println("Welcher Film soll gelöscht werden?");
-        String movieTitle = input.nextLine();
-        Movie movieToDelete = movieInventory.searchInventory(movieTitle);
-        movieInventory.deleteFromInventory(movieToDelete);
-    }
-
-    private static void rentMovie(){
-        System.out.println("Welcher Film soll ausgeliehen werden?");
-        String movieTitle = input.nextLine();
-        Movie movieToRent = movieInventory.searchInventory(movieTitle);
-        movieInventory.rentMovie(movieToRent);
-    }
-
-    private static void takeBackMovie(){
-        System.out.println("Welcher Film soll zurück genommen werden?");
-        String movieTitle = input.nextLine();
-        Movie movieToTakeBack = movieInventory.searchInventory(movieTitle);
-        movieInventory.takeBackMovie(movieToTakeBack);
     }
 
     private static void showMenu(){

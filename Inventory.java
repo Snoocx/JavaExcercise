@@ -1,6 +1,6 @@
-import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import Model.Movie;
 
@@ -11,21 +11,7 @@ public class Inventory implements IInventory {
         movieInventory = new ArrayList<Movie>();
     }
 
-    public void printMovieInventory(){
-        int i = 0;
-        for (Movie movie : movieInventory) {
-            i++;
-            System.out.println("#" + i);
-            System.out.println("Filmtitel: " + movie.title);
-            System.out.println("Ausgeliehen: " + (movie.isRented ? "Ja" : "Nein"));
-            System.out.println();
-        }
-        if(i == 0)
-            System.out.println("Es wurden keine Filme gefunden.");
-    }
-
-    @Override
-    public Movie searchInventory(String movieTitle) {
+    private Movie searchInventory(String movieTitle) {
         Movie movie = new Movie();
         if(movieTitle.equals(""))
             return null;
@@ -38,8 +24,7 @@ public class Inventory implements IInventory {
         return movie;
     }
 
-    @Override
-    public void deleteFromInventory(Movie movieToDelete) {
+    private void deleteFromInventory(Movie movieToDelete) {
         if(movieToDelete == null)
             return;
 
@@ -47,8 +32,7 @@ public class Inventory implements IInventory {
            System.out.println("Der Film \"" + movieToDelete.title + "\" wurde aus dem Inventar gelöscht.");
     }
 
-    @Override
-    public void rentMovie(Movie movieToRent) {
+    private void rentMovie(Movie movieToRent) {
         if(movieToRent == null)
             return;
 
@@ -62,8 +46,7 @@ public class Inventory implements IInventory {
         }
     }
 
-    @Override
-    public void addToInventory(String movieTitle) {
+    private void addToInventory(String movieTitle) {
         if(movieTitle.equals(""))
             return;
 
@@ -75,8 +58,7 @@ public class Inventory implements IInventory {
         System.out.println("Der Film \"" + movie.title + "\" wurde zum Inventar hinzugefügt.");
     }
 
-    @Override
-    public void takeBackMovie(Movie movieToTakeBack) {
+    private void takeBackMovie(Movie movieToTakeBack) {
         if(movieToTakeBack == null)
             return;
 
@@ -88,5 +70,53 @@ public class Inventory implements IInventory {
                 System.out.println("Der Film \"" + movie.title + "\" ist bereits wieder im Inventar.");
             }
         }
+    }
+
+    @Override
+    public void addMovie(Scanner input){
+        System.out.println("Wie ist der Filmtitel?");
+        String movieTitle = input.nextLine();
+        addToInventory(movieTitle);
+    }
+
+    @Override
+    public void deleteMovie(Scanner input){
+        //TODO add possibility to ask for id
+        System.out.println("Welcher Film soll gelöscht werden?");
+        String movieTitle = input.nextLine();
+        Movie movieToDelete = searchInventory(movieTitle);
+        deleteFromInventory(movieToDelete);
+    }
+
+    @Override
+    public void rentMovie(Scanner input){
+        //TODO add possibility to ask for id
+        System.out.println("Welcher Film soll ausgeliehen werden?");
+        String movieTitle = input.nextLine();
+        Movie movieToRent = searchInventory(movieTitle);
+        rentMovie(movieToRent);
+    }
+
+    @Override
+    public void takeBackMovie(Scanner input){
+        //TODO add possibility to ask for id
+        System.out.println("Welcher Film soll zurück genommen werden?");
+        String movieTitle = input.nextLine();
+        Movie movieToTakeBack = searchInventory(movieTitle);
+        takeBackMovie(movieToTakeBack);
+    }
+
+    @Override
+    public void printMovieInventory(){
+        int i = 0;
+        for (Movie movie : movieInventory) {
+            i++;
+            System.out.println("#" + i);
+            System.out.println("Filmtitel: " + movie.title);
+            System.out.println("Ausgeliehen: " + (movie.isRented ? "Ja" : "Nein"));
+            System.out.println();
+        }
+        if(i == 0)
+            System.out.println("Es wurden keine Filme gefunden.");
     }
 }
