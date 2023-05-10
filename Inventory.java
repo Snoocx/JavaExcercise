@@ -11,8 +11,17 @@ public class Inventory implements IInventory {
         movieInventory = new ArrayList<Movie>();
     }
 
-    public List<Movie> getMovieInventory(){
-        return movieInventory;
+    public void printMovieInventory(){
+        int i = 0;
+        for (Movie movie : movieInventory) {
+            i++;
+            System.out.println("#" + i);
+            System.out.println("Filmtitel: " + movie.title);
+            System.out.println("Ausgeliehen: " + (movie.isRented ? "Ja" : "Nein"));
+            System.out.println();
+        }
+        if(i == 0)
+            System.out.println("Es wurden keine Filme gefunden.");
     }
 
     @Override
@@ -31,18 +40,24 @@ public class Inventory implements IInventory {
 
     @Override
     public void deleteFromInventory(Movie movieToDelete) {
+        if(movieToDelete == null)
+            return;
+
            movieInventory.remove(movieToDelete);
-           System.out.println("Movie \"" + movieToDelete.title + "\" deleted.");
+           System.out.println("Der Film \"" + movieToDelete.title + "\" wurde aus dem Inventar gelöscht.");
     }
 
     @Override
     public void rentMovie(Movie movieToRent) {
+        if(movieToRent == null)
+            return;
+
         for (Movie movie : movieInventory) {
             if(movieToRent.title == movie.title && movie.isRented == false){
                 movie.isRented = true;
-                System.out.println("Movie \"" + movie.title + "\" rent.");
+                System.out.println("Der Film \"" + movie.title + "\" wurde erfolgreich ausgeliehen.");
             }else if(movie.isRented == true){
-                System.out.println("Movie \"" + movie.title + "\" is already rented.");
+                System.out.println("Der Film \"" + movie.title + "\" ist bereits ausgeliehen.");
             }
         }
     }
@@ -57,17 +72,20 @@ public class Inventory implements IInventory {
         movie.isRented = false;
 
         movieInventory.add(movie);
-        System.out.println("Movie \"" + movie.title + "\" added to Inventory.");
+        System.out.println("Der Film \"" + movie.title + "\" wurde zum Inventar hinzugefügt.");
     }
 
     @Override
     public void takeBackMovie(Movie movieToTakeBack) {
+        if(movieToTakeBack == null)
+            return;
+
         for (Movie movie : movieInventory) {
             if(movieToTakeBack.title == movie.title && movie.isRented == true){
                 movie.isRented = false;
-                System.out.println("Movie \"" + movie.title + "\" taken back.");
+                System.out.println("Der Film \"" + movie.title + "\" wurde erfolgreich zurück genommen.");
             }else if(movie.isRented == false){
-                System.out.println("Movie \"" + movie.title + "\" is already in stock.");
+                System.out.println("Der Film \"" + movie.title + "\" ist bereits wieder im Inventar.");
             }
         }
     }

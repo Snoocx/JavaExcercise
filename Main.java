@@ -3,12 +3,14 @@ import java.util.Scanner;
 import Model.Movie;
 
 public class Main {
+    private static Scanner input;
+    private static Inventory movieInventory;
     public static void main(String[] args){
 
         System.out.println("Willkommen im InventarSystem der MovieVision GmbH.");
 
-        Inventory movieInventory = new Inventory();
-        Scanner input = new Scanner(System.in);
+        movieInventory = new Inventory();
+        input = new Scanner(System.in);
         String movieTitle = "";
 
         showMenu();
@@ -23,39 +25,19 @@ public class Main {
                     showMenu();
                     break;
                 case 1:
-                    System.out.println("Wie ist der Filmtitel?");
-                    movieTitle = input.nextLine();
-                    movieInventory.addToInventory(movieTitle);
+                    addMovie();
                     break;
                 case 2:
-                    System.out.println("Welcher Film soll gelöscht werden?");
-                    movieTitle = input.nextLine();
-                    Movie movieToDelete = movieInventory.searchInventory(movieTitle);
-                    movieInventory.deleteFromInventory(movieToDelete);
+                    deleteMovie();
                     break;
                 case 3:
-                    System.out.println("Welcher Film soll ausgeliehen werden?");
-                    movieTitle = input.nextLine();
-                    Movie movieToRent = movieInventory.searchInventory(movieTitle);
-                    movieInventory.rentMovie(movieToRent);
+                    rentMovie();
                     break;
                 case 4:
-                    System.out.println("Welcher Film soll zurück genommen werden?");
-                    movieTitle = input.nextLine();
-                    Movie movieToTakeBack = movieInventory.searchInventory(movieTitle);
-                    movieInventory.takeBackMovie(movieToTakeBack);
+                    takeBackMovie();
                     break;
                 case 5:
-                    int i = 0;
-                    for (Movie movie : movieInventory.getMovieInventory()) {
-                        i++;
-                        System.out.println("#" + i);
-                        System.out.println("Filmtitel: " + movie.title);
-                        System.out.println("Ausgeliehen: " + (movie.isRented ? "Ja" : "Nein"));
-                        System.out.println();
-                    }
-                    if(i == 0)
-                        System.out.println("Es wurden keine Filme gefunden.");
+                    movieInventory.printMovieInventory();
                     break;
                 case 9:
                     input.close();
@@ -64,7 +46,34 @@ public class Main {
         }
     }
 
-   private static void showMenu(){
+    private static void addMovie(){
+        System.out.println("Wie ist der Filmtitel?");
+        String movieTitle = input.nextLine();
+        movieInventory.addToInventory(movieTitle);
+    }
+    
+    private static void deleteMovie(){
+        System.out.println("Welcher Film soll gelöscht werden?");
+        String movieTitle = input.nextLine();
+        Movie movieToDelete = movieInventory.searchInventory(movieTitle);
+        movieInventory.deleteFromInventory(movieToDelete);
+    }
+
+    private static void rentMovie(){
+        System.out.println("Welcher Film soll ausgeliehen werden?");
+        String movieTitle = input.nextLine();
+        Movie movieToRent = movieInventory.searchInventory(movieTitle);
+        movieInventory.rentMovie(movieToRent);
+    }
+
+    private static void takeBackMovie(){
+        System.out.println("Welcher Film soll zurück genommen werden?");
+        String movieTitle = input.nextLine();
+        Movie movieToTakeBack = movieInventory.searchInventory(movieTitle);
+        movieInventory.takeBackMovie(movieToTakeBack);
+    }
+
+    private static void showMenu(){
         System.out.println("0) Zeige dieses Menü");
         System.out.println("1) Film hinzufügen");
         System.out.println("2) Film löschen");
